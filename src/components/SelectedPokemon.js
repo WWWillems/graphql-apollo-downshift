@@ -85,7 +85,6 @@ class SelectedPokemon extends Component {
     render() {
         const pokemon = this.props.pokemon;
 
-        // TODO: Mutation?
         const q = gql`
           {
             Pokemon(name: "${pokemon.name}") {
@@ -112,16 +111,22 @@ class SelectedPokemon extends Component {
                         if (loading) return "Loading...";
                         if (error) return `Error! ${error.message}`;
 
-                        const {id, image, name, stats, abilities} = data.Pokemon;
+                        const {image, name, stats, abilities} = data.Pokemon;
 
                         return (
 
                             <Row>
-                                <Container onChange={evt => console.log(evt)}>
+                                <Container>
                                     <img src={image} width={96} height={96}/>
                                     <H1>{name}</H1>
-                                    <BlueButton onClick={() => this.props.onSavePokemonClicked(Object.assign(data.Pokemon, { selectedMoves: this.state.selectedMoves }))}>SAVE
-                                        POKEMON </BlueButton>
+                                    <BlueButton onClick={() => {
+                                        if(this.state.selectedMoves.length == 0){
+                                            window.alert('Minimum 1 move needs to be learned before adding a Pokemon to your squad');
+                                            return null;
+                                        }
+
+                                        this.props.onSavePokemonClicked(Object.assign(data.Pokemon, { selectedMoves: this.state.selectedMoves }))}
+                                    }>SAVE POKEMON </BlueButton>
                                 </Container>
 
 

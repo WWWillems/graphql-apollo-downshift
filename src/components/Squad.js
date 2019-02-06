@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
 import * as COLORS from "../constants/colors";
 import {H1} from "./H1";
@@ -36,8 +36,6 @@ const PokeMove = styled.div`
 
 export const Squad = (props) => {
     const {squad} = props;
-
-    const moves = ['test'];
 
     if(!squad){
         return null;

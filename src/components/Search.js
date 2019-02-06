@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import styled from "styled-components";
 import * as Title from "./H1";
 import * as COLORS from './../constants/colors';
 import Downshift from "downshift";
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import {Query} from "react-apollo";
 
 const Container = styled.div`
   max-width: 350px;      
@@ -40,48 +40,55 @@ const GET_POKEMONS = gql`
   }
 `;
 
-class Search extends Component {
+const Search = (props) => {
+    return <Container>
+        <Title.H1 color={COLORS.GENERAL.YELLOW}>Select a Pokemon</Title.H1>
 
-    constructor(props){
-        super(props);
+        <Query query={GET_POKEMONS}>
+            {({loading, error, data}) => {
+                if (loading) return "Loading...";
+                if (error) return `Error! ${error.message}. Is the GraphQL endpoint still active?`;
 
-        this.state = {
-            searchQuery: '',
+                return (<Downshift
+                        onChange={selection => props.onPokemonSelected(selection)}
+                        itemToString={item => (item ? item.name : '')}>
+                        {({
+                              getInputProps,
+                              getItemProps,
+                              getLabelProps,
+                              getMenuProps,
+                              isOpen,
+                              inputValue,
+                              highlightedIndex,
+                              selectedItem,
+                          }) => (
+                            <div>
+                                <SearchInput placeholder="TYPE TO FILTER" {...getInputProps()} />
+                                {isOpen
+                                    ? data.Pokemons
+                                        .filter(pokemon => !inputValue || pokemon.name.includes(inputValue))
+                                        .map((item, index) => (
+                                            <ResultItem
+                                                {...getItemProps({
+                                                    key: item.name,
+                                                    index,
+                                                    item,
+                                                })}
+                                            >
+                                                {item.name}
+                                            </ResultItem>
+                                        ))
+                                    : null}
+                            </div>
+                        )}
+                    </Downshift>
 
-        }
-    }
 
-    onInputChanged = evt => {
-        console.log(evt.target.value)
-    };
+                );
+            }}
+        </Query>
 
-    render() {
-        return <Container>
-            <Title.H1 color={COLORS.GENERAL.YELLOW}>Select a Pokemon</Title.H1>
-
-            <SearchInput placeholder="TYPE TO FILTER" onChange={this.onInputChanged} />
-
-            <Query query={GET_POKEMONS}>
-                {({ loading, error, data }) => {
-                    if (loading) return "Loading...";
-                    if (error) return `Error! ${error.message}`;
-
-                    console.log('data == ' , data)
-
-                    return (
-                        <div onChange={evt => console.log(evt)}>
-                            {data.Pokemons.map(pokemon => (
-                                <ResultItem key={pokemon.name} value={pokemon.name} alt={`Click to select ${pokemon.name}`} onClick={(evt) => this.props.onPokemonSelected(pokemon)}>
-                                    {pokemon.name}
-                                </ResultItem>
-                            ))}
-                        </div>
-                    );
-                }}
-            </Query>
-
-        </Container>
-    }
+    </Container>
 }
 
 

@@ -31,7 +31,7 @@ const PokeMove = styled.div`
     border-radius: 15px;
     display: flex;
     width: 85%;
-    margin: 0em;
+    margin: 0.5em;
 `;
 
 export const Squad = (props) => {
@@ -45,14 +45,14 @@ export const Squad = (props) => {
 
     return <Row>
 
-        {squad.map(({id, image, name, types}) => {
+        {squad.map(({id, image, name, types, selectedMoves}) => {
             const pokeType = types[0].name;
 
             return <PokeTile key={id} color={COLORS.POKE_TYPE[pokeType.toUpperCase()]}>
                 <img src={image} height={96} width={96} />
                 <H1 color={COLORS.GENERAL.WHITE}>{name}</H1>
 
-                { moves.map(move => <PokeMove id={move}>{move}</PokeMove>)}
+                { selectedMoves.map(move => <PokeMove key={move}>{move}</PokeMove>)}
             </PokeTile>
         })}
 

@@ -35,7 +35,8 @@ class App extends Component {
 
   onSavePokemonClicked = pokemon => {
       this.setState({
-          squad: this.state.squad.concat([pokemon])
+          squad: this.state.squad.concat([pokemon]),
+          selectedPokemon: null,
       })
   };
 

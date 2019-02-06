@@ -9,7 +9,8 @@ import Grid from 'styled-components-grid';
 
 const Container = styled(Row)`
   display: block;
-  margin: 0 auto;
+  margin: 2em;
+  text-align: center;
 `;
 
 const BlueButton = styled.button`
@@ -113,20 +114,18 @@ class SelectedPokemon extends Component {
 
                         const {id, image, name, stats, abilities} = data.Pokemon;
 
-                        console.log('DETAILS = ', data.Pokemon);
-
                         return (
 
                             <Row>
-                                <div onChange={evt => console.log(evt)}>
+                                <Container onChange={evt => console.log(evt)}>
                                     <img src={image} width={96} height={96}/>
                                     <H1>{name}</H1>
-                                    <BlueButton onClick={() => this.props.onSavePokemonClicked(data.Pokemon)}>SAVE
+                                    <BlueButton onClick={() => this.props.onSavePokemonClicked(Object.assign(data.Pokemon, { selectedMoves: this.state.selectedMoves }))}>SAVE
                                         POKEMON </BlueButton>
-                                </div>
+                                </Container>
 
 
-                                <div>
+                                <Container>
 
                                     <H1>Stats</H1>
 
@@ -144,20 +143,20 @@ class SelectedPokemon extends Component {
                                     <div>
                                         <H1>Selected Moves</H1>
 
-                                        { this.state.selectedMoves.map(move => <MoveItem key={move}>{move}</MoveItem>)}
+                                        { this.state.selectedMoves.map(move => <MoveItem key={move} onClick={() => this.onMoveClicked(move)}>{move}</MoveItem>)}
 
                                     </div>
 
-                                </div>
+                                </Container>
 
 
-                                <div>
+                                <Container>
 
                                     <H1>Tutor machine</H1>
 
-                                    { abilities.map(({name}, i) => <AbilityLabel key={i + name} onClick={() => this.onMoveClicked(name)}>{name}</AbilityLabel>) }
+                                    { abilities.map(({name}, i) => <AbilityLabel key={i + name} onClick={() => this.onMoveClicked(name)}>{name.charAt(0).toUpperCase() + name.slice(1)}</AbilityLabel>) }
 
-                                </div>
+                                </Container>
                             </Row>
 
 

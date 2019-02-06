@@ -14,10 +14,8 @@ const Logo = styled.img`
 `;
 
 const Container = styled.div`
-  max-width: 980px;
-  margin: 0 auto;
+  margin: auto;
 `;
-
 
 
 class App extends Component {
@@ -50,7 +48,7 @@ class App extends Component {
           <Row>
               <Search onPokemonSelected={this.onPokemonSelected}/>
 
-              { this.state.selectedPokemon ? <SelectedPokemon pokemon={this.state.selectedPokemon} onSavePokemonClicked={this.onSavePokemonClicked} /> : `Please select a Pokemon`}
+              { this.state.selectedPokemon ? <SelectedPokemon pokemon={this.state.selectedPokemon} onSavePokemonClicked={this.onSavePokemonClicked} /> : null}
           </Row>
 
           <Squad squad={this.state.squad} />

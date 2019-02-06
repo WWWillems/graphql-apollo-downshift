@@ -7,13 +7,11 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 
 const Container = styled.div`
-  width: 350px;
   max-width: 350px;      
 `;
 
 const SearchInput = styled.input`
   display: block;
-  width: 100%;
   margin: 0 auto;
   padding: 1em;
   border-color: ${COLORS.GENERAL.BLUE}

@@ -4,6 +4,7 @@ import * as COLORS from "../constants/colors";
 import {H1} from "./H1";
 import {Row} from "./Row";
 
+
 const PokeTile = styled.div`
     display: flex;
     flex-direction: column;
@@ -44,12 +45,14 @@ export const Squad = (props) => {
 
     return <Row>
 
-        {squad.map(({id, image, name}) => {
-            return <PokeTile color={'red'}>
+        {squad.map(({id, image, name, types}) => {
+            const pokeType = types[0].name;
+
+            return <PokeTile key={id} color={COLORS.POKE_TYPE[pokeType.toUpperCase()]}>
                 <img src={image} height={96} width={96} />
                 <H1 color={COLORS.GENERAL.WHITE}>{name}</H1>
 
-                { moves.map(move => <PokeMove>{move}</PokeMove>)}
+                { moves.map(move => <PokeMove id={move}>{move}</PokeMove>)}
             </PokeTile>
         })}
 

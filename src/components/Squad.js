@@ -1,10 +1,57 @@
-import styled from 'styled-components';
+import React, { Component } from "react";
+import styled from "styled-components";
+import * as COLORS from "../constants/colors";
+import {H1} from "./H1";
+import {Row} from "./Row";
 
-const PokeTile = styled`
-    background-color: ${props => props.}
+const PokeTile = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    background-color: ${props => props.color}
+    padding: 1em;
+    margin: 1em;
 `;
 
-export const Squad = (squad) => {
+const EmptyTile = styled(PokeTile)`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    background-color: ${COLORS.GENERAL.GREY}
+    padding: 1em;
+    margin: 1em;
+`;
 
-    return <h2>Squad</h2>
+const PokeMove = styled.div`
+    padding: 1em;
+    background-color: ${COLORS.GENERAL.GREY};
+    border-radius: 15px;
+    display: flex;
+    width: 85%;
+    margin: 0em;
+`;
+
+export const Squad = (props) => {
+    const {squad} = props;
+
+    const moves = ['test'];
+
+    if(!squad){
+        return null;
+    }
+
+    return <Row>
+
+        {squad.map(({id, image, name}) => {
+            return <PokeTile color={'red'}>
+                <img src={image} height={96} width={96} />
+                <H1 color={COLORS.GENERAL.WHITE}>{name}</H1>
+
+                { moves.map(move => <PokeMove>{move}</PokeMove>)}
+            </PokeTile>
+        })}
+
+    </Row>
 };
